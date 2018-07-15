@@ -76,11 +76,14 @@
 
 <p>Unfortunately, this means the prototype will be huge and power-hungry, not ideal traits. While I had originally planned on using a Raspberry Pi Zero W in the &ldquo;final&rdquo; version, after doing more research I discovered the <a href="https://www.esp8266.com">ESP8266</a> WiFi microcontroller, and began to hatch a plan.</p>
 
-<p>Once I&rsquo;m satisfied with the functionality of this initial prototype, I&rsquo;m going to build a &ldquo;final&rdquo; prototype:
-* Based on a <a href="https://www.pjrc.com/teensy/teensyLC.html">Teensy LC</a> dev board (itself based on an ARM Cortex M0+ microcontroller)
-* WiFi provided by an ESP8266 &ldquo;backpack&rdquo;
-* 128x32 monochrome OLED display replacing the large backlight character LCD
-* Powered by 2xAA batteries</p>
+<p>Once I&rsquo;m satisfied with the functionality of this initial prototype, I&rsquo;m going to build a &ldquo;final&rdquo; prototype:</p>
+
+<ul>
+<li>Based on a <a href="https://www.pjrc.com/teensy/teensyLC.html">Teensy LC</a> dev board (itself based on an ARM Cortex M0+ microcontroller)</li>
+<li>WiFi provided by an ESP8266 &ldquo;backpack&rdquo;</li>
+<li>128x32 monochrome OLED display replacing the large backlight character LCD</li>
+<li>Powered by 2xAA batteries</li>
+</ul>
 
 <p>I&rsquo;m confident that by carefully managing the power states on both the Teensy and the ESP8266 that I can keep the average power draw under 100mA, which would give 20+ hours of battery life on one pair of rechargeable AAs.</p>
 
