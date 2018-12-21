@@ -51,6 +51,123 @@
     <div class="posts">
 <div class="post">
   <h1 class="post-title">
+    <a href="/posts/advent-2015-1/">Advent of Code 2015, Day 1: Not Quite Lisp</a>
+  </h1>
+  <span class="post-date">Fri, Dec 21, 2018</span>
+  
+
+<p>Advent of Code debuted on December 1, 2015, with this puzzle:</p>
+
+<blockquote>
+<p>Santa is trying to deliver presents in a large apartment building, but he can&rsquo;t find the right floor - the directions he got are a little confusing. He starts on the ground floor (floor <code>0</code>) and then follows the instructions one character at a time.</p>
+
+<p>An opening parenthesis, <code>(</code>, means he should go up one floor, and a closing parenthesis, <code>)</code>, means he should go down one floor.</p>
+
+<p>The apartment building is very tall, and the basement is very deep; he will never find the top or bottom floors.</p>
+
+<p>For example:</p>
+
+<ul>
+<li><code>(())</code> and <code>()()</code> both result in floor <code>0</code>.</li>
+<li><code>(((</code> and <code>(()(()(</code> both result in floor <code>3</code>.</li>
+<li><code>))(((((</code> also results in floor <code>3</code>.</li>
+<li><code>())</code> and <code>))(</code> both result in floor <code>-1</code> (the first basement level).</li>
+<li><code>)))</code> and <code>)())())</code> both result in floor <code>-3</code>.</li>
+</ul>
+
+<p>To <strong>what floor</strong> do the instructions take Santa?</p>
+</blockquote>
+
+<h2 id="analysis">Analysis</h2>
+
+<p>As can be expected for a &ldquo;warm-up&rdquo; puzzle this one is fairly straightforward.
+Each byte in the input must result in a calculation being performed, making the
+complexity <em>O(n)</em>.</p>
+
+<p>The easiest way to accomplish this is to read the input stream one byte at a
+time and increment or decerement the counter.</p>
+
+<h3 id="c">C</h3>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">FILE <span style="color:#f92672">*</span>input <span style="color:#f92672">=</span> fopen(inputFile);
+<span style="color:#66d9ef">int</span> floor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">char</span> c;
+
+<span style="color:#66d9ef">while</span>(fread(<span style="color:#f92672">&amp;</span>c, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, input) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+    <span style="color:#66d9ef">switch</span>(c) {
+    <span style="color:#66d9ef">case</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;(&#39;</span><span style="color:#f92672">:</span>
+        floor<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">case</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;)&#39;</span><span style="color:#f92672">:</span>
+        floor<span style="color:#f92672">--</span>;
+        <span style="color:#66d9ef">break</span>;
+    }
+}</code></pre></div>
+
+<h3 id="optimization">Optimization</h3>
+
+<p>In order to optimize, depending on the implementation it may be faster to read
+the whole file first and then loop over the in-memory array. This does not
+change the asymptotic complexity.</p>
+
+<hr />
+
+<p>Upon submitting the correct value, a second problem appears:</p>
+
+<blockquote>
+<p>Now, given the same instructions, find the <strong>position</strong> of the first character that causes him to enter the basement (floor <code>-1</code>). The first character in the instructions has position <code>1</code>, the second character has position <code>2</code>, and so on.</p>
+
+<p>For example:</p>
+
+<ul>
+<li><code>)</code> causes him to enter the basement at character position <code>1</code>.</li>
+<li><code>()())</code> causes him to enter the basement at character position <code>5</code>.</li>
+</ul>
+
+<p>What is the <strong>position</strong> of the character that causes Santa to first enter the basement?</p>
+</blockquote>
+
+<h2 id="analysis-1">Analysis</h2>
+
+<p>Now, in addition to tracking which floor we are on, we need to track how many
+steps we&rsquo;ve taken. The original code can be modified to find both answers,
+however for the sake of clarity I will treat both problems of a given day as
+separate.</p>
+
+<p>Again, the input must be looped, this time with the addition of incrementing a
+counter. This time, however, we can break out of the loop once we achieve the
+desired floor, saving some time.</p>
+
+<h3 id="c-1">C</h3>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">FILE <span style="color:#f92672">*</span>input <span style="color:#f92672">=</span> fopen(inputFile);
+<span style="color:#66d9ef">int</span> floor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">char</span> c;
+<span style="color:#66d9ef">int</span> pos;
+
+<span style="color:#66d9ef">while</span>(fread(<span style="color:#f92672">&amp;</span>c, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, input) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+    pos<span style="color:#f92672">++</span>;
+    <span style="color:#66d9ef">switch</span>(c) {
+    <span style="color:#66d9ef">case</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;(&#39;</span><span style="color:#f92672">:</span>
+        floor<span style="color:#f92672">++</span>;
+        <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">case</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;)&#39;</span><span style="color:#f92672">:</span>
+        floor<span style="color:#f92672">--</span>;
+        <span style="color:#66d9ef">break</span>;
+    }
+    <span style="color:#66d9ef">if</span>(floor <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#66d9ef">break</span>;
+    }
+}</code></pre></div>
+
+<h3 id="optimization-1">Optimization</h3>
+
+<p>Optimization may again be achieved by reading the whole file, although the
+picture here is somewhat murkier as this problem does not necessarily require
+us to loop through the whole array. Regardless, the complexity remains at <em>O(n)</em>.</p>
+
+</div><div class="post">
+  <h1 class="post-title">
     <a href="/posts/advent-of-code/">Advent of Code</a>
   </h1>
   <span class="post-date">Fri, Dec 21, 2018</span>
@@ -60,11 +177,18 @@ used them to dip my toe into new languages, but I have generally done them
 ad-hoc without a lot of discussion or analysis. I&rsquo;ll be starting a series on
 this blog discussing the Advent of Code problems in the context of similar
 problems in computer science, analyzing the complexity of the problem and
-possible solutions, and discussing implementation details. I hope you find these
-posts enlightening.</p>
+possible solutions, and discussing implementation details. In each post, I will
+cover both of the days problems as seperate, even though in many cases
+they are similar.</p>
 
 <p>I will update this post with links to new posts in this series as I make them,
-so feel free to bookmark this post as a shortcut.</p>
+so feel free to bookmark this post as a shortcut. I hope you find these
+posts enlightening, and if you have additional feedback about how to optimize
+or better solve these puzzles, please leave comments.</p>
+
+<p>The code for my solutions can be found in <a href="https://github.com/e3b0c442/advent">my Advent of Code repository</a></p>
+
+<p><a href="/posts/advent-2015-1/">Advent of Code 2015, Day 1: Not Quite Lisp</a></p>
 
 </div><div class="post">
   <h1 class="post-title">
