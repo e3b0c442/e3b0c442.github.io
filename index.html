@@ -51,143 +51,36 @@
     <div class="posts">
 <div class="post">
   <h1 class="post-title">
+    <a href="/posts/advent-2015-3/">Advent of Code 2015, Day 3: Perfectly Spherical Houses in a Vacuum</a>
+  </h1>
+  <span class="post-date">Fri, Dec 21, 2018</span>
+  The elves have everything wrapped up, and it&rsquo;s time for Santa to do some more deliveries.
+ Santa is delivering presents to an infinite two-dimensional grid of houses.
+He begins by delivering a present to the house at his starting location, and then an elf at the North Pole calls him via radio and tells him where to move next. Moves are always exactly one house to the north (^), south (v), east (&gt;), or west (&lt;).
+  
+  <div class="read-more-link">
+    <a href="/posts/advent-2015-3/">Read More…</a>
+  </div>
+  
+</div><div class="post">
+  <h1 class="post-title">
     <a href="/posts/advent-2015-2/">Advent of Code 2015, Day 2: I Was Told There Would Be No Math</a>
   </h1>
   <span class="post-date">Fri, Dec 21, 2018</span>
+  Santa was able to deliver his presents to the large apartment building. Now, his elves need wrapping paper and ribbon.
+ The elves are running low on wrapping paper, and so they need to submit an order for more. They have a list of the dimensions (length l, width w, and height h) of each present, and only want to order exactly as much as they need.
+Fortunately, every present is a box (a perfect right rectangular prism), which makes calculating the required wrapping paper for each gift a little easier: find the surface area of the box, which is 2*l*w + 2*w*h + 2*h*l.
   
-
-<p>Santa was able to deliver his presents to the large apartment building. Now, his
-elves need wrapping paper and ribbon.</p>
-
-<blockquote>
-<p>The elves are running low on wrapping paper, and so they need to submit an order for more. They have a list of the dimensions (length <code>l</code>, width <code>w</code>, and height <code>h</code>) of each present, and only want to order exactly as much as they need.</p>
-
-<p>Fortunately, every present is a box (a perfect right rectangular prism), which makes calculating the required wrapping paper for each gift a little easier: find the surface area of the box, which is <code>2*l*w + 2*w*h + 2*h*l</code>. The elves also need a little extra paper for each present: the area of the smallest side.</p>
-
-<p>For example:</p>
-
-<ul>
-<li>A present with dimensions <code>2x3x4</code> requires <code>2*6 + 2*12 + 2*8 = 52</code> square feet of wrapping paper plus <code>6</code> square feet of slack, for a total of <code>58</code> square feet.</li>
-<li>A present with dimensions <code>1x1x10</code> requires <code>2*1 + 2*10 + 2*10 = 42</code> square feet of wrapping paper plus <code>1</code> square foot of slack, for a total of <code>43</code> square feet.</li>
-</ul>
-
-<p>All numbers in the elves&rsquo; list are in feet. How many total <strong>square feet of wrapping paper</strong> should they order?</p>
-</blockquote>
-
-<h2 id="analysis">Analysis</h2>
-
-<p>There are several steps required in order to achieve the requirements of this
-program:</p>
-
-<ul>
-<li>Read the input file</li>
-<li>Parse the input lines</li>
-<li>Perform the arithmetic</li>
-</ul>
-
-<p>Reading the input lines will require one read operation per line.</p>
-
-<p>The input lines are formatted in the form <code>#x#x#</code>, where the three numerical
-dimensions are delimited by the character <code>x</code>. If a string split function is
-available, an array of strings with the three dimensions (in string format) can
-easily be had by splitting on the <code>x</code> delimiter; for lower-level languages such
-as C, the string may need to be (semi-)manually parsed. For my C implementation,
-I used <code>strtok</code>, which&ndash;despite its bad reputation&ndash;is the best option for this
-use case.</p>
-
-<p>Once the input lines are split, each element will need to be converted
-from a string to an integer. <code>atoi</code> or similar can be used here, with the end
-result being an array of integers representing the three dimensions.</p>
-
-<p>The &ldquo;gotcha&rdquo; is that the instructions require us to know which two dimensions
-are the smallest. We can either sort the dimension array ahead of time or
-manually determine which of the three dimensions is the largest and exclude
-that dimension. Given the improvement in ergonomics, I prefer sorting ahead, so
-that we can access elements <code>0</code> and <code>1</code> and know that they are the two smallest
-elements.</p>
-
-<p>Intuitively, despite multiple steps per operation, there is only one loop on
-the original data set so it seems that the complexity of this task is <em>O(n)</em>.
-As we break the operations down:</p>
-
-<ul>
-<li>Read the input file: <em>O(n)</em></li>
-<li>Split the lines: <em>3 * O(n)</em></li>
-<li>Convert the dimensions: <em>3 * O(n)</em></li>
-<li>Sort the dimensions: This is where things can get a bit unclear. <code>qsort</code> in
-the C standard library has a worst-case complexity of <em>O(n^2)</em>, however, <em>n</em> in
-this case refers to the length of the dimensions array, which is 3 in each case.
-We are running this once per input line, so really we are adding <em>O(n)</em> to the
-complexity.</li>
-<li>Perform the math: <em>O(n)</em></li>
-</ul>
-
-<p>We end up with a final complexity of <em>O(9n)</em>, which asymptotically lands at
-<em>O(n)</em> matching our conclusion that we are only performing one loop on the
-original data.</p>
-
-<h3 id="c">C</h3>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">FILE <span style="color:#f92672">*</span>input <span style="color:#f92672">=</span> fopen(inputFile);
-
-<span style="color:#66d9ef">int</span> area <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-<span style="color:#66d9ef">char</span> buf[<span style="color:#ae81ff">256</span>];
-<span style="color:#66d9ef">while</span>(fgets(buf, <span style="color:#ae81ff">256</span>, input) <span style="color:#f92672">!=</span> NULL) {
-    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>dims_s[<span style="color:#ae81ff">3</span>];
-    <span style="color:#66d9ef">char</span> dims[<span style="color:#ae81ff">3</span>];
-
-    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>tmp <span style="color:#f92672">=</span> buf;
-    <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>) {
-        dims_s[i] <span style="color:#f92672">=</span> strtok(tmp, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;x&#34;</span>);
-        tmp <span style="color:#f92672">=</span> NULL;
-    }
-    <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>) {
-        dims[i] <span style="color:#f92672">=</span> atoi(dims_s[i]);
-    }
-    qsort(dims, <span style="color:#ae81ff">3</span>, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>), compi);
-    area <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> dims[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">1</span>];
-}</code></pre></div>
-
-<h3 id="optimization">Optimization</h3>
-
-<p>There are no immediately obvious areas for optimization, aside from potentially
-improving the sort operation based on the knowledge that we will always have
-three positive integers in the array.</p>
-
-<hr />
-
-<p>The followup problem appears:</p>
-
-<blockquote>
-<p>The elves are also running low on ribbon. Ribbon is all the same width, so they only have to worry about the length they need to order, which they would again like to be exact.</p>
-
-<p>The ribbon required to wrap a present is the shortest distance around its sides, or the smallest perimeter of any one face. Each present also requires a bow made out of ribbon as well; the feet of ribbon required for the perfect bow is equal to the cubic feet of volume of the present. Don&rsquo;t ask how they tie the bow, though; they&rsquo;ll never tell.</p>
-
-<p>For example:</p>
-
-<ul>
-<li>A present with dimensions <code>2x3x4</code> requires <code>2+2+3+3 = 10</code> feet of ribbon to wrap the present plus <code>2*3*4 = 24</code> feet of ribbon for the bow, for a total of <code>34</code> feet.</li>
-<li>A present with dimensions <code>1x1x10</code> requires <code>1+1+1+1 = 4</code> feet of ribbon to wrap the present plus <code>1*1*10 = 10</code> feet of ribbon for the bow, for a total of <code>14</code> feet.</li>
-</ul>
-
-<p>How many total <strong>feet of ribbon</strong> should they order?</p>
-</blockquote>
-
-<h2 id="analysis-1">Analysis</h2>
-
-<p>The only change in operation for the second problem is an update of the
-arithmetic. Sorting is still required as we still need to find the shortest
-dimensions. The complexity remains the same.</p>
-
+  <div class="read-more-link">
+    <a href="/posts/advent-2015-2/">Read More…</a>
+  </div>
+  
 </div><div class="post">
   <h1 class="post-title">
     <a href="/posts/advent-2015-1/">Advent of Code 2015, Day 1: Not Quite Lisp</a>
   </h1>
   <span class="post-date">Fri, Dec 21, 2018</span>
-  
-
-<p>Advent of Code debuted on December 1, 2015, with this puzzle:</p>
+  <p>Advent of Code debuted on December 1, 2015, with this puzzle:</p>
 
 <blockquote>
 <p>Santa is trying to deliver presents in a large apartment building, but he can&rsquo;t find the right floor - the directions he got are a little confusing. He starts on the ground floor (floor <code>0</code>) and then follows the instructions one character at a time.</p>
@@ -210,93 +103,11 @@ dimensions. The complexity remains the same.</p>
 </blockquote>
 
 <h2 id="analysis">Analysis</h2>
-
-<p>As can be expected for a &ldquo;warm-up&rdquo; puzzle this one is fairly straightforward.
-Each byte in the input must result in a calculation being performed, making the
-complexity <em>O(n)</em>.</p>
-
-<p>The easiest way to accomplish this is to read the input stream one byte at a
-time and increment or decerement the counter.</p>
-
-<h3 id="c">C</h3>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">FILE <span style="color:#f92672">*</span>input <span style="color:#f92672">=</span> fopen(inputFile);
-<span style="color:#66d9ef">int</span> floor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-<span style="color:#66d9ef">char</span> c;
-
-<span style="color:#66d9ef">while</span>(fread(<span style="color:#f92672">&amp;</span>c, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, input) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-    <span style="color:#66d9ef">switch</span>(c) {
-    <span style="color:#66d9ef">case</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;(&#39;</span><span style="color:#f92672">:</span>
-        floor<span style="color:#f92672">++</span>;
-        <span style="color:#66d9ef">break</span>;
-    <span style="color:#66d9ef">case</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;)&#39;</span><span style="color:#f92672">:</span>
-        floor<span style="color:#f92672">--</span>;
-        <span style="color:#66d9ef">break</span>;
-    }
-}</code></pre></div>
-
-<h3 id="optimization">Optimization</h3>
-
-<p>In order to optimize, depending on the implementation it may be faster to read
-the whole file first and then loop over the in-memory array. This does not
-change the asymptotic complexity.</p>
-
-<hr />
-
-<p>Upon submitting the correct value, a second problem appears:</p>
-
-<blockquote>
-<p>Now, given the same instructions, find the <strong>position</strong> of the first character that causes him to enter the basement (floor <code>-1</code>). The first character in the instructions has position <code>1</code>, the second character has position <code>2</code>, and so on.</p>
-
-<p>For example:</p>
-
-<ul>
-<li><code>)</code> causes him to enter the basement at character position <code>1</code>.</li>
-<li><code>()())</code> causes him to enter the basement at character position <code>5</code>.</li>
-</ul>
-
-<p>What is the <strong>position</strong> of the character that causes Santa to first enter the basement?</p>
-</blockquote>
-
-<h2 id="analysis-1">Analysis</h2>
-
-<p>Now, in addition to tracking which floor we are on, we need to track how many
-steps we&rsquo;ve taken. The original code can be modified to find both answers,
-however for the sake of clarity I will treat both problems of a given day as
-separate.</p>
-
-<p>Again, the input must be looped, this time with the addition of incrementing a
-counter. This time, however, we can break out of the loop once we achieve the
-desired floor, saving some time.</p>
-
-<h3 id="c-1">C</h3>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">FILE <span style="color:#f92672">*</span>input <span style="color:#f92672">=</span> fopen(inputFile);
-<span style="color:#66d9ef">int</span> floor <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-<span style="color:#66d9ef">char</span> c;
-<span style="color:#66d9ef">int</span> pos;
-
-<span style="color:#66d9ef">while</span>(fread(<span style="color:#f92672">&amp;</span>c, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, input) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-    pos<span style="color:#f92672">++</span>;
-    <span style="color:#66d9ef">switch</span>(c) {
-    <span style="color:#66d9ef">case</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;(&#39;</span><span style="color:#f92672">:</span>
-        floor<span style="color:#f92672">++</span>;
-        <span style="color:#66d9ef">break</span>;
-    <span style="color:#66d9ef">case</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;)&#39;</span><span style="color:#f92672">:</span>
-        floor<span style="color:#f92672">--</span>;
-        <span style="color:#66d9ef">break</span>;
-    }
-    <span style="color:#66d9ef">if</span>(floor <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-        <span style="color:#66d9ef">break</span>;
-    }
-}</code></pre></div>
-
-<h3 id="optimization-1">Optimization</h3>
-
-<p>Optimization may again be achieved by reading the whole file, although the
-picture here is somewhat murkier as this problem does not necessarily require
-us to loop through the whole array. Regardless, the complexity remains at <em>O(n)</em>.</p>
-
+  
+  <div class="read-more-link">
+    <a href="/posts/advent-2015-1/">Read More…</a>
+  </div>
+  
 </div><div class="post">
   <h1 class="post-title">
     <a href="/posts/advent-of-code/">Advent of Code</a>
@@ -310,17 +121,13 @@ this blog discussing the Advent of Code problems in the context of similar
 problems in computer science, analyzing the complexity of the problem and
 possible solutions, and discussing implementation details. In each post, I will
 cover both of the days problems as seperate, even though in many cases
-they are similar.</p>
-
-<p>I will update this post with links to new posts in this series as I make them,
-so feel free to bookmark this post as a shortcut. I hope you find these
-posts enlightening, and if you have additional feedback about how to optimize
-or better solve these puzzles, please leave comments.</p>
-
-<p>The code for my solutions can be found in <a href="https://github.com/e3b0c442/advent">my Advent of Code repository</a></p>
-
-<p><a href="/posts/advent-2015-1/">Advent of Code 2015, Day 1: Not Quite Lisp</a></p>
-
+they are similar.
+</p>
+  
+  <div class="read-more-link">
+    <a href="/posts/advent-of-code/">Read More…</a>
+  </div>
+  
 </div><div class="post">
   <h1 class="post-title">
     <a href="/posts/florence/">Hurricane Florence</a>
@@ -329,9 +136,9 @@ or better solve these puzzles, please leave comments.</p>
   <p>I just wanted to share this note from <a href="https://reddit.com/u/hamsterdave">hamsterdave</a> on <a href="https://reddit.com">reddit</a>:</p>
 
 <blockquote>
-<p>&rdquo;&hellip; I&rsquo;m a storm chaser with a fair amount of experience with hurricanes, including both of the 2 most recent Carolina landfalls, Arthur and Matthew. This storm will not be like either of those, or like anything the US mainland has seen in a long time. It isn&rsquo;t going to just be a storm surge disaster like Katrina, or a rainer like Harvey, or catastrophic wind damage like Andrew. It has the potential to be all three, and could very well (if it doesn&rsquo;t slow down too much before land fall) be the most powerful hurricane to make landfall on the US mainland since Andrew in 1992. The Carolina coast has had a prolonged quiet period with only a few relatively minor hurricane strikes in the last 20 years. It is imperative that people do not fall victim to complacency with this storm. &hellip;&rdquo;</p>
-</blockquote>
-
+<p>&rdquo;&hellip; I&rsquo;m a storm chaser with a fair amount of experience with hurricanes, including both of the 2 most recent Carolina landfalls, Arthur and Matthew. This storm will not be like either of those, or like anything the US mainland has seen in a long time. It isn&rsquo;t going to just be a storm surge disaster like Katrina, or a rainer like Harvey, or catastrophic wind damage like Andrew. It has the potential to be all three, and could very well (if it doesn&rsquo;t slow down too much before land fall) be the most powerful hurricane to make landfall on the US mainland since Andrew in 1992. The Carolina coast has had a prolonged quiet period with only a few relatively minor hurricane strikes in the last 20 years. It is imperative that people do not fall victim to complacency with this storm. &hellip;&rdquo;
+</p>
+  
 </div><div class="post">
   <h1 class="post-title">
     <a href="/posts/bbiq/">BBiQ</a>
@@ -343,43 +150,15 @@ or better solve these puzzles, please leave comments.</p>
 
 <ul>
 <li>It could only handle two probe jacks.</li>
-<li>Bluetooth range, while nominally 100 meters, depends on the transmit power and it was clearly obvious that in order to save power that transmit power had been reduced on this device; it would not cover the house.</li>
-</ul>
 
-<p>After considering the problem, I decided that WiFi would be a better connection mechanism to use, because:</p>
+<li><p>Bluetooth range, while nominally 100 meters, depends on the transmit power and it was clearly obvious that in order to save power that transmit power had been reduced on this device; it would not cover the house.
 
-<ul>
-<li>My primary router has line-of-sight to the grill</li>
-<li>it would afford me the ability to run an errand while still being able to monitor the status of my cook (with somebody at home keeping an eye on things&hellip; come on!).</li>
-</ul>
-
-<p>So, I started looking around, and found out that there wasn&rsquo;t really much on the market that had 4 probes AND WiFi, and what there was, was quite extensive.</p>
-
-<p>Also in my searching, I found <a href="https://store.heatermeter.com">HeaterMeter</a>, and became intrigued. The price was still a bit high, and it included capabilities that I just didn&rsquo;t need (like a fan controller, for example). However, I thought &ndash; what&rsquo;s keeping me from building my own similar device? This way, I could build it exactly how I wanted, and have complete control over everything. In particular, I could make sure I was using high-quality probes, like <a href="https://www.thermoworks.com/Handheld-Probes/Probes/Pro-Series">these high-quality probes from ThermoWorks, the same guys that make the ThermaPen</a>.</p>
-
-<p>So I started thinking, and planning, and prototyping. This weekend, I hit two big milestones: I finished the code for everything local to the device (buttons, alarm, display), and I had a successful test of my calibration, with the thermometer reading within 1°F compared to a reference at multiple temperatures.</p>
-
-<p><img src="/posts/bbiq/bbiq_proto.png" alt="BBiQ proto-prototype" /></p>
-
-<p>For this proto-prototype, I&rsquo;m building with an old <a href="https://store.arduino.cc/arduino-uno-rev3">Arduino Uno</a> that I&rsquo;ve had for awhile, then connecting it to a <a href="https://www.raspberrypi.org/products/raspberry-pi-1-model-b-plus/">Raspberry Pi B+</a> with an <a href="https://www.edimax.com/edimax/merchandise/merchandise_detail/data/edimax/in/wireless_adapters_n150/ew-7811un/">Edimax N150</a> mini WiFi adapter. I plan to use the <a href="https://blynk.cc">Blynk</a> service for the &ldquo;cloud&rdquo; functionality, including notifications and history graphs.</p>
-
-<p>Unfortunately, this means the prototype will be huge and power-hungry, not ideal traits. While I had originally planned on using a Raspberry Pi Zero W in the &ldquo;final&rdquo; version, after doing more research I discovered the <a href="https://www.esp8266.com">ESP8266</a> WiFi microcontroller, and began to hatch a plan.</p>
-
-<p>Once I&rsquo;m satisfied with the functionality of this initial prototype, I&rsquo;m going to build a &ldquo;final&rdquo; prototype:</p>
-
-<ul>
-<li>Based on a <a href="https://www.pjrc.com/teensy/teensyLC.html">Teensy LC</a> dev board (itself based on an ARM Cortex M0+ microcontroller)</li>
-<li>WiFi provided by an ESP8266 &ldquo;backpack&rdquo;</li>
-<li>128x32 monochrome OLED display replacing the large backlight character LCD</li>
-<li>Powered by 2xAA batteries</li>
-</ul>
-
-<p>I&rsquo;m confident that by carefully managing the power states on both the Teensy and the ESP8266 that I can keep the average power draw under 100mA, which would give 20+ hours of battery life on one pair of rechargeable AAs. In addition, this version should end up being about the size of an original iPod, if not smaller (really, the batteries are going to dominate the size at that point).</p>
-
-<p>Assuming everything goes well and I feel the urge, I could build my own board based on the Freescale microcontroller that Teensy LC uses&hellip; but if I can already get the battery life I&rsquo;m looking for, what&rsquo;s the point? :)</p>
-
-<p><a href="https://github.com/e3b0c442/BBiQ">Source and schematics</a>, if you want to follow my progress. Check the prototype branch if there&rsquo;s nothing on master.</p>
-
+After considering the problem, I decided that WiFi would be a better connection mechanism to use, because:</p>
+  
+  <div class="read-more-link">
+    <a href="/posts/bbiq/">Read More…</a>
+  </div>
+  
 </div><div class="post">
   <h1 class="post-title">
     <a href="/posts/why/">Why e3b0c442?</a>
@@ -394,6 +173,8 @@ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 ^-
 
 </code></pre>
 
+<p></p>
+  
 </div>
 </div>
     </div>
