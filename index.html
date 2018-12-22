@@ -54,9 +54,25 @@
     <a href="/posts/advent-2015-3/">Advent of Code 2015, Day 3: Perfectly Spherical Houses in a Vacuum</a>
   </h1>
   <span class="post-date">Fri, Dec 21, 2018</span>
-  The elves have everything wrapped up, and it&rsquo;s time for Santa to do some more deliveries.
- Santa is delivering presents to an infinite two-dimensional grid of houses.
-He begins by delivering a present to the house at his starting location, and then an elf at the North Pole calls him via radio and tells him where to move next. Moves are always exactly one house to the north (^), south (v), east (&gt;), or west (&lt;).
+  <p>The elves have everything wrapped up, and it&rsquo;s time for Santa to do some more deliveries.</p>
+
+<blockquote>
+<p>Santa is delivering presents to an infinite two-dimensional grid of houses.</p>
+
+<p>He begins by delivering a present to the house at his starting location, and then an elf at the North Pole calls him via radio and tells him where to move next. Moves are always exactly one house to the north (<code>^</code>), south (<code>v</code>), east (<code>&gt;</code>), or west (<code>&lt;</code>). After each move, he delivers another present to the house at his new location.</p>
+
+<p>However, the elf back at the north pole has had a little too much eggnog, and so his directions are a little off, and Santa ends up visiting some houses more than once. How many houses receive <strong>at least one present</strong>?</p>
+
+<p>For example:</p>
+
+<ul>
+<li><code>&gt;</code> delivers presents to <code>2</code> houses: one at the starting location, and one to the east.</li>
+<li><code>^&gt;v&lt;</code> delivers presents to <code>4</code> houses in a square, including twice to the house at his starting/ending location.</li>
+<li><code>^v^v^v^v^v</code> delivers a bunch of presents to some very lucky children at only <code>2</code> houses.</li>
+</ul>
+</blockquote>
+
+<h2 id="analysis">Analysis</h2>
   
   <div class="read-more-link">
     <a href="/posts/advent-2015-3/">Read More…</a>
@@ -67,9 +83,25 @@ He begins by delivering a present to the house at his starting location, and the
     <a href="/posts/advent-2015-2/">Advent of Code 2015, Day 2: I Was Told There Would Be No Math</a>
   </h1>
   <span class="post-date">Fri, Dec 21, 2018</span>
-  Santa was able to deliver his presents to the large apartment building. Now, his elves need wrapping paper and ribbon.
- The elves are running low on wrapping paper, and so they need to submit an order for more. They have a list of the dimensions (length l, width w, and height h) of each present, and only want to order exactly as much as they need.
-Fortunately, every present is a box (a perfect right rectangular prism), which makes calculating the required wrapping paper for each gift a little easier: find the surface area of the box, which is 2*l*w + 2*w*h + 2*h*l.
+  <p>Santa was able to deliver his presents to the large apartment building. Now, his
+elves need wrapping paper and ribbon.</p>
+
+<blockquote>
+<p>The elves are running low on wrapping paper, and so they need to submit an order for more. They have a list of the dimensions (length <code>l</code>, width <code>w</code>, and height <code>h</code>) of each present, and only want to order exactly as much as they need.</p>
+
+<p>Fortunately, every present is a box (a perfect right rectangular prism), which makes calculating the required wrapping paper for each gift a little easier: find the surface area of the box, which is <code>2*l*w + 2*w*h + 2*h*l</code>. The elves also need a little extra paper for each present: the area of the smallest side.</p>
+
+<p>For example:</p>
+
+<ul>
+<li>A present with dimensions <code>2x3x4</code> requires <code>2*6 + 2*12 + 2*8 = 52</code> square feet of wrapping paper plus <code>6</code> square feet of slack, for a total of <code>58</code> square feet.</li>
+<li>A present with dimensions <code>1x1x10</code> requires <code>2*1 + 2*10 + 2*10 = 42</code> square feet of wrapping paper plus <code>1</code> square foot of slack, for a total of <code>43</code> square feet.</li>
+</ul>
+
+<p>All numbers in the elves&rsquo; list are in feet. How many total <strong>square feet of wrapping paper</strong> should they order?</p>
+</blockquote>
+
+<h2 id="analysis">Analysis</h2>
   
   <div class="read-more-link">
     <a href="/posts/advent-2015-2/">Read More…</a>
