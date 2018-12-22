@@ -51,6 +51,137 @@
     <div class="posts">
 <div class="post">
   <h1 class="post-title">
+    <a href="/posts/advent-2015-2/">Advent of Code 2015, Day 2: I Was Told There Would Be No Math</a>
+  </h1>
+  <span class="post-date">Fri, Dec 21, 2018</span>
+  
+
+<p>Santa was able to deliver his presents to the large apartment building. Now, his
+elves need wrapping paper and ribbon.</p>
+
+<blockquote>
+<p>The elves are running low on wrapping paper, and so they need to submit an order for more. They have a list of the dimensions (length <code>l</code>, width <code>w</code>, and height <code>h</code>) of each present, and only want to order exactly as much as they need.</p>
+
+<p>Fortunately, every present is a box (a perfect right rectangular prism), which makes calculating the required wrapping paper for each gift a little easier: find the surface area of the box, which is <code>2*l*w + 2*w*h + 2*h*l</code>. The elves also need a little extra paper for each present: the area of the smallest side.</p>
+
+<p>For example:</p>
+
+<ul>
+<li>A present with dimensions <code>2x3x4</code> requires <code>2*6 + 2*12 + 2*8 = 52</code> square feet of wrapping paper plus <code>6</code> square feet of slack, for a total of <code>58</code> square feet.</li>
+<li>A present with dimensions <code>1x1x10</code> requires <code>2*1 + 2*10 + 2*10 = 42</code> square feet of wrapping paper plus <code>1</code> square foot of slack, for a total of <code>43</code> square feet.</li>
+</ul>
+
+<p>All numbers in the elves&rsquo; list are in feet. How many total <strong>square feet of wrapping paper</strong> should they order?</p>
+</blockquote>
+
+<h2 id="analysis">Analysis</h2>
+
+<p>There are several steps required in order to achieve the requirements of this
+program:</p>
+
+<ul>
+<li>Read the input file</li>
+<li>Parse the input lines</li>
+<li>Perform the arithmetic</li>
+</ul>
+
+<p>Reading the input lines will require one read operation per line.</p>
+
+<p>The input lines are formatted in the form <code>#x#x#</code>, where the three numerical
+dimensions are delimited by the character <code>x</code>. If a string split function is
+available, an array of strings with the three dimensions (in string format) can
+easily be had by splitting on the <code>x</code> delimiter; for lower-level languages such
+as C, the string may need to be (semi-)manually parsed. For my C implementation,
+I used <code>strtok</code>, which&ndash;despite its bad reputation&ndash;is the best option for this
+use case.</p>
+
+<p>Once the input lines are split, each element will need to be converted
+from a string to an integer. <code>atoi</code> or similar can be used here, with the end
+result being an array of integers representing the three dimensions.</p>
+
+<p>The &ldquo;gotcha&rdquo; is that the instructions require us to know which two dimensions
+are the smallest. We can either sort the dimension array ahead of time or
+manually determine which of the three dimensions is the largest and exclude
+that dimension. Given the improvement in ergonomics, I prefer sorting ahead, so
+that we can access elements <code>0</code> and <code>1</code> and know that they are the two smallest
+elements.</p>
+
+<p>Intuitively, despite multiple steps per operation, there is only one loop on
+the original data set so it seems that the complexity of this task is <em>O(n)</em>.
+As we break the operations down:</p>
+
+<ul>
+<li>Read the input file: <em>O(n)</em></li>
+<li>Split the lines: <em>3 * O(n)</em></li>
+<li>Convert the dimensions: <em>3 * O(n)</em></li>
+<li>Sort the dimensions: This is where things can get a bit unclear. <code>qsort</code> in
+the C standard library has a worst-case complexity of <em>O(n^2)</em>, however, <em>n</em> in
+this case refers to the length of the dimensions array, which is 3 in each case.
+We are running this once per input line, so really we are adding <em>O(n)</em> to the
+complexity.</li>
+<li>Perform the math: <em>O(n)</em></li>
+</ul>
+
+<p>We end up with a final complexity of <em>O(9n)</em>, which asymptotically lands at
+<em>O(n)</em> matching our conclusion that we are only performing one loop on the
+original data.</p>
+
+<h3 id="c">C</h3>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">FILE <span style="color:#f92672">*</span>input <span style="color:#f92672">=</span> fopen(inputFile);
+
+<span style="color:#66d9ef">int</span> area <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">char</span> buf[<span style="color:#ae81ff">256</span>];
+<span style="color:#66d9ef">while</span>(fgets(buf, <span style="color:#ae81ff">256</span>, input) <span style="color:#f92672">!=</span> NULL) {
+    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>dims_s[<span style="color:#ae81ff">3</span>];
+    <span style="color:#66d9ef">char</span> dims[<span style="color:#ae81ff">3</span>];
+
+    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>tmp <span style="color:#f92672">=</span> buf;
+    <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>) {
+        dims_s[i] <span style="color:#f92672">=</span> strtok(tmp, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;x&#34;</span>);
+        tmp <span style="color:#f92672">=</span> NULL;
+    }
+    <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>) {
+        dims[i] <span style="color:#f92672">=</span> atoi(dims_s[i]);
+    }
+    qsort(dims, <span style="color:#ae81ff">3</span>, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>), compi);
+    area <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> dims[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> dims[<span style="color:#ae81ff">1</span>];
+}</code></pre></div>
+
+<h3 id="optimization">Optimization</h3>
+
+<p>There are no immediately obvious areas for optimization, aside from potentially
+improving the sort operation based on the knowledge that we will always have
+three positive integers in the array.</p>
+
+<hr />
+
+<p>The followup problem appears:</p>
+
+<blockquote>
+<p>The elves are also running low on ribbon. Ribbon is all the same width, so they only have to worry about the length they need to order, which they would again like to be exact.</p>
+
+<p>The ribbon required to wrap a present is the shortest distance around its sides, or the smallest perimeter of any one face. Each present also requires a bow made out of ribbon as well; the feet of ribbon required for the perfect bow is equal to the cubic feet of volume of the present. Don&rsquo;t ask how they tie the bow, though; they&rsquo;ll never tell.</p>
+
+<p>For example:</p>
+
+<ul>
+<li>A present with dimensions <code>2x3x4</code> requires <code>2+2+3+3 = 10</code> feet of ribbon to wrap the present plus <code>2*3*4 = 24</code> feet of ribbon for the bow, for a total of <code>34</code> feet.</li>
+<li>A present with dimensions <code>1x1x10</code> requires <code>1+1+1+1 = 4</code> feet of ribbon to wrap the present plus <code>1*1*10 = 10</code> feet of ribbon for the bow, for a total of <code>14</code> feet.</li>
+</ul>
+
+<p>How many total <strong>feet of ribbon</strong> should they order?</p>
+</blockquote>
+
+<h2 id="analysis-1">Analysis</h2>
+
+<p>The only change in operation for the second problem is an update of the
+arithmetic. Sorting is still required as we still need to find the shortest
+dimensions. The complexity remains the same.</p>
+
+</div><div class="post">
+  <h1 class="post-title">
     <a href="/posts/advent-2015-1/">Advent of Code 2015, Day 1: Not Quite Lisp</a>
   </h1>
   <span class="post-date">Fri, Dec 21, 2018</span>
