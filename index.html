@@ -51,6 +51,45 @@
     <div class="posts">
 <div class="post">
   <h1 class="post-title">
+    <a href="/posts/advent-2015-5/">Advent of Code 2015, Day 5: Doesn&#39;t He Have Intern-Elves For This?</a>
+  </h1>
+  <span class="post-date">Sat, Dec 22, 2018</span>
+  <p>Now that Santa has finished disappointing all the kids by putting worthless
+altcoins in their stockings, it&rsquo;s time to check his list twice and find the
+naughty and nice&hellip; strings.</p>
+
+<blockquote>
+<p>Santa needs help figuring out which strings in his text file are naughty or nice.</p>
+
+<p>A <strong>nice string</strong> is one with all of the following properties:</p>
+
+<ul>
+<li>It contains at least three vowels (<code>aeiou</code> only), like <code>aei</code>, <code>xazegov</code>, or <code>aeiouaeiouaeiou</code>.</li>
+<li>It contains at least one letter that appears twice in a row, like <code>xx</code>, <code>abcdde</code> (<code>dd</code>), or <code>aabbccdd</code> (<code>aa</code>, <code>bb</code>, <code>cc</code>, or <code>dd</code>).</li>
+<li>It does not contain the strings <code>ab</code>, <code>cd</code>, <code>pq</code>, or <code>xy</code>, even if they are part of one of the other requirements.</li>
+</ul>
+
+<p>For example:</p>
+
+<ul>
+<li><code>ugknbfddgicrmopn</code> is nice because it has at least three vowels (<code>u...i...o...</code>), a double letter (<code>...dd...</code>), and none of the disallowed substrings.</li>
+<li><code>aaa</code> is nice because it has at least three vowels and a double letter, even though the letters used by different rules overlap.</li>
+<li><code>jchzalrnumimnmhp</code> is naughty because it has no double letter.</li>
+<li><code>haegwjzuvuyypxyu</code> is naughty because it contains the string <code>xy</code>.</li>
+<li><code>dvszwmarrgswjxmb</code> is naughty because it contains only one vowel.</li>
+</ul>
+
+<p>How many strings are nice?</p>
+</blockquote>
+
+<h2 id="analysis">Analysis</h2>
+  
+  <div class="read-more-link">
+    <a href="/posts/advent-2015-5/">Read More…</a>
+  </div>
+  
+</div><div class="post">
+  <h1 class="post-title">
     <a href="/posts/advent-2015-4/">Advent of Code 2015, Day 4: The Ideal Stocking Stuffer</a>
   </h1>
   <span class="post-date">Sat, Dec 22, 2018</span>
@@ -227,8 +266,8 @@ After considering the problem, I decided that WiFi would be a better connection 
 
 <p>Not satisfied? Fine. I have an interest in cryptography, and e3b0c442 represents the first 16 bytes of an SHA256 hash on an empty input:</p>
 
-<pre><code class="language-bash">$ echo '' | shasum -a 256 -0
-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 ^-
+<pre><code class="language-bash">$ echo '' | shasum -a 256 -0 | awk '{print $1}'
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 
 </code></pre>
 

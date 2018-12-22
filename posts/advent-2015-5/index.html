@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.36.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Advent of Code 2015, Day 5: Doesn&#39;t He Have Intern-Elves For This? &middot; e3b0c442</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="e3b0c442" />
+
+  
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="/"><h1>e3b0c442</h1></a>
+      <p class="lead">
+       Rants and ramblings of a bit mangler and electron herder. 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+    </ul>
+
+    <p>©2018 Nick. 85E3 8F69 046B 44C1 EC9F B07B 76D7 8F05 00D0 26C4</p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>Advent of Code 2015, Day 5: Doesn&#39;t He Have Intern-Elves For This?</h1>
+  <span class="post-date">Sat, Dec 22, 2018</span>
+  <p>Now that Santa has finished disappointing all the kids by putting worthless
+altcoins in their stockings, it&rsquo;s time to check his list twice and find the
+naughty and nice&hellip; strings.</p>
+
+<blockquote>
+<p>Santa needs help figuring out which strings in his text file are naughty or nice.</p>
+
+<p>A <strong>nice string</strong> is one with all of the following properties:</p>
+
+<ul>
+<li>It contains at least three vowels (<code>aeiou</code> only), like <code>aei</code>, <code>xazegov</code>, or <code>aeiouaeiouaeiou</code>.</li>
+<li>It contains at least one letter that appears twice in a row, like <code>xx</code>, <code>abcdde</code> (<code>dd</code>), or <code>aabbccdd</code> (<code>aa</code>, <code>bb</code>, <code>cc</code>, or <code>dd</code>).</li>
+<li>It does not contain the strings <code>ab</code>, <code>cd</code>, <code>pq</code>, or <code>xy</code>, even if they are part of one of the other requirements.</li>
+</ul>
+
+<p>For example:</p>
+
+<ul>
+<li><code>ugknbfddgicrmopn</code> is nice because it has at least three vowels (<code>u...i...o...</code>), a double letter (<code>...dd...</code>), and none of the disallowed substrings.</li>
+<li><code>aaa</code> is nice because it has at least three vowels and a double letter, even though the letters used by different rules overlap.</li>
+<li><code>jchzalrnumimnmhp</code> is naughty because it has no double letter.</li>
+<li><code>haegwjzuvuyypxyu</code> is naughty because it contains the string <code>xy</code>.</li>
+<li><code>dvszwmarrgswjxmb</code> is naughty because it contains only one vowel.</li>
+</ul>
+
+<p>How many strings are nice?</p>
+</blockquote>
+
+<h2 id="analysis">Analysis</h2>
+
+<p>
+You are given a set of strings that you need to apply some criteria to.</p>
+
+<p>There are two general ways in which this problem can be tackled:</p>
+
+<ul>
+<li>Loop through the strings, tracking the criteria byte-by-byte</li>
+<li>Use regular expressions</li>
+</ul>
+
+<p>Neither path is necessarily easy. If you loop through the strings manually, there
+will be a lot of backreferencing of parts of the string you&rsquo;ve already scanned
+looking for matches. If not done carefully, these loops will quickly drag your
+runtime up.</p>
+
+<p>Finding a solution using regular expressions requires using advanced regular
+expression capabilities that are not universally available. In particular, you
+need the capability to do both positive and negative lookahead assertions as
+well as backreferences. Neither of the POSIX flavors nor the Google RE2 engine
+which backs the Go <code>regexp</code> package support any of these features. You will need
+to use PCRE or a similar backtracking engine.</p>
+
+<p>That said, I will discuss using PCRE to find the solution because of its
+ubiquity, and the fact that I believe applying the compiled regular expression
+to each string ultimately ends up being faster than manually looping and
+backtracking through the strings.</p>
+
+<p>For the first part of this problem, there are three criteria:</p>
+
+<ul>
+<li>at least three vowels (<code>aeiou</code>)</li>
+<li>at least one repeating character</li>
+<li>does not contain one of the substrings <code>ab</code>, <code>cd</code>, <code>pq</code>, <code>xy</code>.</li>
+</ul>
+
+<p>In order to check all three criteria with one regular expression, we need to
+use the positive and negative lookahead functionality to combine rules.</p>
+
+<p>For the vowels criteria, we need three vowels anywhere in the string. This can
+be accomplished with the subpattern <code>(?=(?:.*[aeiou]){3,})</code>. Further
+breaking down this pattern, we are looking for a character in the vowel class
+(<code>[aeiou]</code>), to appear three or more times (<code>{3,}</code>), with zero or more
+characters (<code>.*</code>) between them. Because we are matching both the vowel and
+the potential characters between them, we wrap the characters and the vowel in
+a non-matching group (<code>(?:)</code>), to get the total match (<code>(?:.*[aeiou])</code>), which
+we then further wrap in a positive lookahead (<code>(?=)</code>) in order to allow further
+matching on the already matched area, resulting in <code>(?=(?:.*[aeiou]){3,})</code>.</p>
+
+<p>For the repeating character criteria, we need to use a backreference, which
+results in the pattern <code>(?=.*(.)\1)</code>. Breaking this down, we are searching for
+any character (<code>.</code>) and then wrapping it in a group (<code>()</code>) so that it can be
+backreferenced. Then, we actually perform the backreference (<code>\1</code>), which
+combines into the pattern <code>(.)\1</code>. Because the dot would greedily match the
+first character regardless of whether there was a following match, we need to
+add a wildcard to the front of the pattern <code>.*(.)\1</code>. Finally, we again wrap in
+a positive lookahead (<code>(?=)</code>) so that we can match the same text again, to give
+a subpattern of <code>(?=.*(.)\1)</code>.</p>
+
+<p>Finally, we have a set of substrings to not match, which can be accomplished
+with the subpattern <code>(?!(?:ab|cd|pq|xy))</code>. To assemble this, we take each of
+our subpatterns and join them with the pipe (<code>|</code>) separator to create a group
+which matches any of the criteria (<code>ab|cd|pq|xy</code>). We wrap this in a
+non-matching group (<code>(?:)</code>) so that it does not keep a reference, to achieve
+<code>(?:ab|cd|pq|xy)</code>. Finally, we wrap this in a negative lookahead (<code>(?!)</code>), which
+asserts that the pattern is <em>NOT</em> found in the proceeding string, to achieve the
+full subpattern <code>(?!(?:ab|cd|pq|xy))</code>.</p>
+
+<p>Finally, we join these subpatterns together <code>(?!(?:ab|cd|pq|xy))(?=.*(.)\1)(?=(?:.*[aeiou]){3,})</code>.
+Since we ostensibly want to match the whole string assuming the other criteria
+match, we add a wildcard (<code>.*</code>) to the end (since the subpatterns are all
+lookaheads), and then add beginning-of-string (<code>^</code>) and end-of-string (<code>$</code>)
+markers, to create a final pattern of <code>^(?!.*(?:ab|cd|pq|xy))(?=.*(.)\1)(?=(?:.*[aeiou]){3,}).*$</code>.</p>
+
+<p>The actual complexity will depend on the mechanics of the regular expression
+engine and how it handles the lookaheads. For our purposes, however, we are
+doing one operation per input line, for a complexity of <em>O(n)</em>.</p>
+
+<h3 id="c">C</h3>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;openssl/md5.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>FILE <span style="color:#f92672">*</span>input <span style="color:#f92672">=</span> fopen(input_file, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;r&#34;</span>);
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>pcre_err;
+<span style="color:#66d9ef">int</span> pcre_erroffset;
+
+<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>nice_pattern <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;^(?!.*(?:ab|cd|pq|xy))(?=.*(.)</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">1)(?=(?:.*[aeiou]){3,}).*$&#34;</span>;
+pcre <span style="color:#f92672">*</span>nice <span style="color:#f92672">=</span> pcre_compile(nice_pattern, <span style="color:#ae81ff">0</span>, <span style="color:#f92672">&amp;</span>pcre_err, <span style="color:#f92672">&amp;</span>pcre_erroffset, NULL);
+
+<span style="color:#66d9ef">int</span> nice_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">char</span> buf[<span style="color:#ae81ff">64</span>];
+<span style="color:#66d9ef">int</span> ovector[<span style="color:#ae81ff">30</span>];
+<span style="color:#66d9ef">while</span>(fgets(buf, <span style="color:#ae81ff">64</span>, input) <span style="color:#f92672">!=</span> NULL) {
+    <span style="color:#66d9ef">int</span> rc <span style="color:#f92672">=</span> pcre_exec(nice, NULL, buf, strlen(buf), <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, ovector, <span style="color:#ae81ff">30</span>);
+    <span style="color:#66d9ef">if</span> (rc <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
+        nice_count<span style="color:#f92672">++</span>;
+}</code></pre></div>
+
+<h3 id="optimization">Optimization</h3>
+
+<p>Testing would be required to determine if a regular expression or manual
+backtracking ends up being faster. That said, if we did choose the manual
+backtracking route, our optimizations would involve ensuring we are making as
+few loops as possible.</p>
+
+<hr />
+
+<p>Santa rightly realized his arbitrary rules were silly, and replaced them with
+arbitrary rules.</p>
+
+<blockquote>
+<p>Realizing the error of his ways, Santa has switched to a better model of determining whether a string is naughty or nice. None of the old rules apply, as they are all clearly ridiculous.</p>
+
+<p>Now, a nice string is one with all of the following properties:</p>
+
+<ul>
+<li>It contains a pair of any two letters that appears at least twice in the string without overlapping, like <code>xyxy</code> (<code>xy</code>) or <code>aabcdefgaa</code> (<code>aa</code>), but not like <code>aaa</code> (<code>aa</code>, but it overlaps).</li>
+<li>It contains at least one letter which repeats with exactly one letter between them, like <code>xyx</code>, <code>abcdefeghi</code> (<code>efe</code>), or even <code>aaa</code>.</li>
+</ul>
+
+<p>For example:</p>
+
+<ul>
+<li><code>qjhvhtzxzqqjkmpb</code> is nice because is has a pair that appears twice (<code>qj</code>) and a letter that repeats with exactly one letter between them (<code>zxz</code>).</li>
+<li><code>xxyxx</code> is nice because it has a pair that appears twice and a letter that repeats with one between, even though the letters used by each rule overlap.</li>
+<li><code>uurcxstgmygtbstg</code> is naughty because it has a pair (<code>tg</code>) but no repeat with a single letter between them.</li>
+<li><code>ieodomkazucvgmuy</code> is naughty because it has a repeating letter with one between (<code>odo</code>), but no pair that appears twice.</li>
+</ul>
+
+<p>How many strings are nice under these new rules?</p>
+</blockquote>
+
+<h2 id="analysis-1">Analysis</h2>
+
+<p>We can use the same methods to analyze the strings for the second part.</p>
+
+<p>Solving with regular expressions, we will again use lookaheads to achieve
+checking multiple rules in the same expression.</p>
+
+<p>We have two criteria in this part of the problem:</p>
+
+<ul>
+<li>a two-or-longer character substring that repeats</li>
+<li>two identical characters with any other character between.</li>
+</ul>
+
+<p>The repeating substring rule can be satisifed by the subexpression
+<code>(?=.*(..).*\1)</code>. Breaking this down, we search for any two characters (<code>..</code>)
+in a group (<code>()</code>). Then we search for zero or more characters (<code>.*</code>), and
+finally use a backreference to match the original pattern (<code>\1</code>), to achieve
+a subexpression <code>(..).*\1</code>. As before, the dot is greedy so we need to prefix
+the expression with a wildcard <code>.*</code>, and then wrap the whole expression in a
+positive lookahead (<code>(?=)</code>) for a final subexpression of <code>(?=.*(..).*\1)</code>.</p>
+
+<p>The two identical characters separated by one other character rule is matched
+by the subexpression <code>(?=.*(.).\2)</code>. We first match any character (<code>.</code>) in a
+group (<code>()</code>) so that it can be backreferenced. Then we match any other character
+(<code>.</code>), and finally add a backreference to the first matched character
+(<code>\2</code>&ndash;we use 2 here because it will be the second matched group in the full
+expression) to achieve <code>(.).\2</code>. Again we need to prefix with a wildcard (<code>.*</code>)
+due to the greedy dot, and then wrap in the positive lookahead for a final
+subexpression of <code>(?=.*(.).\2)</code>.</p>
+
+<p>We bring the subexpressions together in the same manner as before, adding a
+wildcard (<code>.*</code>) at the end and bracing the expression with the beginning- (<code>^</code>)
+and end- (<code>$</code>) of pattern markers, for a full expression of
+<code>^(?=.*(..).*\1)(?=.*(.).\2).*$</code>. We can replace the previous expression
+with this one using the same supporting code to get the result for part 2.</p>
+
+<p>Next: <em>coming soon</em></p>
+</div>
+
+<h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "e3b0c442" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+    
+  </body>
+</html>
