@@ -28,11 +28,11 @@
   
     
   
-  <meta name="description" content="In the first technical article for this iteration of the site, I&rsquo;d like to turn to Advent of Code. These are programming problems built around a fun Christmas-themed storyline each year. I especially appreciate that the problems are language-agnostic, so I frequently turn to some of the easier ones when I&rsquo;m getting familiar with a new language.
-It can be easy to throw together just enough code to make the puzzle work, but I thought I&rsquo;d revisit these problems from a different angle, looking not only at how to solve the problem, but how to write high-quality code, including error handling and memory management.">
+  <meta name="description" content="I&rsquo;m going to go ahead and do a second puzzle today since the early ones are relatively simple. Day 1&rsquo;s puzzles were mostly incrementing, decrementing and tracking variables; Day 2&rsquo;s have a bit more math involved.
+ The elves are running low on wrapping paper, and so they need to submit an order for more. They have a list of the dimensions (length l, width w, and height h) of each present, and only want to order exactly as much as they need.">
 
   
-  <link rel="alternate" hreflang="en-us" href="/post/advent-setup-c/">
+  <link rel="alternate" hreflang="en-us" href="/post/advent-2015-c-2/">
 
   
 
@@ -99,7 +99,7 @@ It can be easy to throw together just enough code to make the puzzle work, but I
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/post/advent-setup-c/">
+  <link rel="canonical" href="/post/advent-2015-c-2/">
 
   
   
@@ -114,27 +114,27 @@ It can be easy to throw together just enough code to make the puzzle work, but I
   <meta property="twitter:creator" content="@0xe3b0c442">
   
   <meta property="og:site_name" content="e3b0c442.io">
-  <meta property="og:url" content="/post/advent-setup-c/">
-  <meta property="og:title" content="Advent of Code deep dive kickoff | e3b0c442.io">
-  <meta property="og:description" content="In the first technical article for this iteration of the site, I&rsquo;d like to turn to Advent of Code. These are programming problems built around a fun Christmas-themed storyline each year. I especially appreciate that the problems are language-agnostic, so I frequently turn to some of the easier ones when I&rsquo;m getting familiar with a new language.
-It can be easy to throw together just enough code to make the puzzle work, but I thought I&rsquo;d revisit these problems from a different angle, looking not only at how to solve the problem, but how to write high-quality code, including error handling and memory management."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:url" content="/post/advent-2015-c-2/">
+  <meta property="og:title" content="Advent of Code 2015 Day 2: I Was Told There Would Be No Math | e3b0c442.io">
+  <meta property="og:description" content="I&rsquo;m going to go ahead and do a second puzzle today since the early ones are relatively simple. Day 1&rsquo;s puzzles were mostly incrementing, decrementing and tracking variables; Day 2&rsquo;s have a bit more math involved.
+ The elves are running low on wrapping paper, and so they need to submit an order for more. They have a list of the dimensions (length l, width w, and height h) of each present, and only want to order exactly as much as they need."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-  <meta property="article:published_time" content="2019-09-08T22:00:00&#43;00:00">
+  <meta property="article:published_time" content="2019-09-09T02:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2019-09-08T22:00:00&#43;00:00">
+  <meta property="article:modified_time" content="2019-09-09T02:00:00&#43;00:00">
   
-
-  
-
 
   
 
 
+  
 
 
 
-  <title>Advent of Code deep dive kickoff | e3b0c442.io</title>
+
+
+  <title>Advent of Code 2015 Day 2: I Was Told There Would Be No Math | e3b0c442.io</title>
 
 </head>
 
@@ -322,7 +322,7 @@ It can be easy to throw together just enough code to make the puzzle work, but I
   
   
 <div class="article-container pt-3">
-  <h1 itemprop="name">Advent of Code deep dive kickoff</h1>
+  <h1 itemprop="name">Advent of Code 2015 Day 2: I Was Told There Would Be No Math</h1>
 
   
 
@@ -331,8 +331,8 @@ It can be easy to throw together just enough code to make the puzzle work, but I
 
 
 
-<meta content="2019-09-08 22:00:00 &#43;0000 UTC" itemprop="datePublished">
-<meta content="2019-09-08 22:00:00 &#43;0000 UTC" itemprop="dateModified">
+<meta content="2019-09-09 02:00:00 &#43;0000 UTC" itemprop="datePublished">
+<meta content="2019-09-09 02:00:00 &#43;0000 UTC" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -345,7 +345,7 @@ It can be easy to throw together just enough code to make the puzzle work, but I
     
       
     
-    <time>Sep 8, 2019</time>
+    <time>Sep 9, 2019</time>
   </span>
   
 
@@ -361,7 +361,7 @@ It can be easy to throw together just enough code to make the puzzle work, but I
   
   
   <span class="middot-divider"></span>
-  <a href="/post/advent-setup-c/#disqus_thread"></a>
+  <a href="/post/advent-2015-c-2/#disqus_thread"></a>
   
 
   
@@ -380,7 +380,7 @@ It can be easy to throw together just enough code to make the puzzle work, but I
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=/post/advent-setup-c/&amp;text=Advent%20of%20Code%20deep%20dive%20kickoff" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=/post/advent-2015-c-2/&amp;text=Advent%20of%20Code%202015%20Day%202:%20I%20Was%20Told%20There%20Would%20Be%20No%20Math" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -393,7 +393,7 @@ It can be easy to throw together just enough code to make the puzzle work, but I
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=/post/advent-setup-c/&amp;t=Advent%20of%20Code%20deep%20dive%20kickoff" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=/post/advent-2015-c-2/&amp;t=Advent%20of%20Code%202015%20Day%202:%20I%20Was%20Told%20There%20Would%20Be%20No%20Math" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook-f"></i>
         </a>
       </li>
@@ -406,7 +406,7 @@ It can be easy to throw together just enough code to make the puzzle work, but I
       
       
       <li>
-        <a href="mailto:?subject=Advent%20of%20Code%20deep%20dive%20kickoff&amp;body=/post/advent-setup-c/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=Advent%20of%20Code%202015%20Day%202:%20I%20Was%20Told%20There%20Would%20Be%20No%20Math&amp;body=/post/advent-2015-c-2/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -419,7 +419,7 @@ It can be easy to throw together just enough code to make the puzzle work, but I
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=/post/advent-setup-c/&amp;title=Advent%20of%20Code%20deep%20dive%20kickoff" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=/post/advent-2015-c-2/&amp;title=Advent%20of%20Code%202015%20Day%202:%20I%20Was%20Told%20There%20Would%20Be%20No%20Math" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -432,7 +432,7 @@ It can be easy to throw together just enough code to make the puzzle work, but I
       
       
       <li>
-        <a href="https://web.whatsapp.com/send?text=Advent%20of%20Code%20deep%20dive%20kickoff%20/post/advent-setup-c/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="https://web.whatsapp.com/send?text=Advent%20of%20Code%202015%20Day%202:%20I%20Was%20Told%20There%20Would%20Be%20No%20Math%20/post/advent-2015-c-2/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -445,7 +445,7 @@ It can be easy to throw together just enough code to make the puzzle work, but I
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=/post/advent-setup-c/&amp;title=Advent%20of%20Code%20deep%20dive%20kickoff" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=/post/advent-2015-c-2/&amp;title=Advent%20of%20Code%202015%20Day%202:%20I%20Was%20Told%20There%20Would%20Be%20No%20Math" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -481,234 +481,277 @@ It can be easy to throw together just enough code to make the puzzle work, but I
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      <p>In the first technical article for this iteration of the site, I&rsquo;d like to turn
-to <a href="https://adventofcode.com" target="_blank">Advent of Code</a>. These are programming problems
-built around a fun Christmas-themed storyline each year. I especially appreciate
-that the problems are language-agnostic, so I frequently turn to some of the
-easier ones when I&rsquo;m getting familiar with a new language.</p>
+      <p>I&rsquo;m going to go ahead and do a second puzzle today since the early ones are
+relatively simple. Day 1&rsquo;s puzzles were mostly incrementing, decrementing and
+tracking variables; Day 2&rsquo;s have a bit more math involved.</p>
 
-<p>It can be easy to throw together just enough code to make the puzzle work, but
-I thought I&rsquo;d revisit these problems from a different angle, looking not only
-at how to solve the problem, but how to write high-quality code, including error
-handling and memory management. In order to up the challenge, the solutions will
-be written in C, and the code will pass all Valgrind tests for memory leaks and
-other issues. All code discussed in these posts will be in my <a href="https://github.com/e3b0c442/advent" target="_blank">Advent of Code
-solutions repository</a>.</p>
+<blockquote>
+<p>The elves are running low on wrapping paper, and so they need to submit an order for more. They have a list of the dimensions (length l, width w, and height h) of each present, and only want to order exactly as much as they need.</p>
 
-<p>To kick things off, we&rsquo;ll take a look at code reuse. When you&rsquo;re quickly
-prototyping or problem solving, you&rsquo;re frequently going to have identical
-snippets of code in multiple places. If we&rsquo;re writing high-quality code, we want
-to avoid this wherever possible. One common theme throughout the Advent of Code
-problems will be reading an input file into memory. In order to avoid writing
-the same code over and over, we&rsquo;re going to start things off by writing a
-function to read a file into a memory buffer:</p>
+<p>Fortunately, every present is a box (a perfect right rectangular prism), which makes calculating the required wrapping paper for each gift a little easier: find the surface area of the box, which is <code>2*l*w + 2*w*h + 2*h*l</code>. The elves also need a little extra paper for each present: the area of the smallest side.</p>
 
-<pre><code class="language-c">int read_file_to_buffer(char **buf, char *filename);
-</code></pre>
-
-<p>Already, just in the function signature, we are making design decisions. We
-could have written the function to return the pointer to the memory buffer, and
-in most languages this makes the most sense. However, in C, the length of an
-array is not an integral part of the data type, so we need to pass that
-information back as well. Therefore, I made the decision to pass a pointer to
-pointer to char (array) to the function, which will be modified in the function
-with the actual pointer to the allocated buffer, and to return the size of the
-buffer in the return value (or -1 if there is an error). We use this pattern
-rather than passing in the buffer itself because we do not know ahead of time
-how the buffer needs to be sized. The caller will be responsible for freeing the
-buffer when they are done using it.</p>
-
-<p>Now, lets think about what actually needs to happen to read a file into memory,
-and what can go wrong.</p>
+<p>For example:</p>
 
 <ul>
-<li>Does the file exist? Is it a valid, readable file?</li>
-<li>How big is the file; consequently, how big does my buffer need to be?</li>
-<li>What happens if we don&rsquo;t succeed in reading the actual data?</li>
+<li>A present with dimensions <code>2x3x4</code> requires <code>2*6 + 2*12 + 2*8 = 52</code> square feet of wrapping paper plus <code>6</code> square feet of slack, for a total of <code>58</code> square feet.</li>
+<li>A present with dimensions <code>1x1x10</code> requires <code>2*1 + 2*10 + 2*10 = 42</code> square feet of wrapping paper plus <code>1</code> square foot of slack, for a total of <code>43</code> square feet.</li>
 </ul>
 
-<p>As you can see, when reading a file, there are a lot of potential failure
-points. Keeping that in mind, let&rsquo;s start writing our code.</p>
+<p>All numbers in the elves&rsquo; list are in feet. How many total <strong>square feet of wrapping paper</strong> should they order?</p>
+</blockquote>
 
-<pre><code class="language-c">int read_file_to_buffer(char **buf, const char *filename)
+<p>As with day 1, we&rsquo;re going to take a minute to break the problem down. As the
+problem states, the input is formatted as XXxYYxZZ, so we will need to parse
+the input into usable numbers. Since we need to operate on the smallest
+dimensions for the slack, we&rsquo;ll need to be able to sort the inputted values.
+Finally, we&rsquo;ll need to do the math and keep a running total.</p>
+
+<p>Let&rsquo;s dig in:</p>
+
+<pre><code class="language-c">int main(int argc, char const *argv[])
 {
     int rval = 0;
-    FILE *f = NULL;
-    *buf = NULL;
 
-    /* check that the file exists and is valid to read */
-    struct stat s;
-    int rc = stat(filename, &amp;s);
-    if (rc == -1)
-        goto err_cleanup; /* errno is set by stat() */
-</code></pre>
-
-<p>The first thing we do is initialize variables that will exist for the life of
-the function (and be part of the cleanup). <code>rval</code> will hold our return value,
-<code>f</code> will hold our file pointer, and <code>*buf</code> is the pointer to the buffer that
-will hold the file contents, which is passed in as a parameter. Each is
-initialized to a sane default, as variables are not automatically initialized
-in C.</p>
-
-<p>With that out of the way, we&rsquo;ll make our first check. Using the POSIX <code>stat</code>
-function, we query the file for information. Right off the bat, this will tell
-us if the file exists; if it does not, <code>stat</code> will return <code>-1</code> and set <code>errno</code>
-accordingly. If we see this, we will jump to our error cleanup.</p>
-
-<p>At this point, I&rsquo;m going to take a sidebar and talk a bit about <code>goto</code>. For most
-programmers, there&rsquo;s a knee-jerk reaction to avoid <code>goto</code> at all costs.
-Generally, I agree with this with one exception: <em>error cleanup.</em> In this case,
-<code>goto</code> properly used provides an avenue to short-circuit function execution and
-provide for cleanup in the case of an error without reusing the same code.</p>
-
-<p>If the file exists, the <code>struct stat</code> will be populated with information about
-the file, including the type and size. Continuing on:</p>
-
-<pre><code class="language-c">    /* check that we are working with an actual file */
-    if (!S_ISREG(s.st_mode))
+    /* check that filename was provided */
+    if (argc &lt; 2)
     {
-        errno = EINVAL;
-        goto err_cleanup;
+        fprintf(stderr, &quot;Must provide filename of input file\n&quot;);
+        return -1;
+    }
+
+    /* read the file into memory */
+    char *input;
+    int filesize = read_file_to_buffer(&amp;input, argv[1]);
+    if (filesize &lt; 0)
+    {
+        fprintf(stderr, &quot;File read failed: %s\n&quot;, strerror(errno));
+        return -1;
     }
 </code></pre>
 
-<p>Our next check is that we are working with a regular file, as opposed to a
-directory, block device, or other file type. (note: <code>stat</code> follows symlinks!).
-We use the <code>S_ISREG</code> macro to accomplish this. Because this is a check and not
-necessarily an error condition, if the provided file is not a regular file we
-will set <code>errno</code> ourselves to indicate an invalid parameter and then jump to our
-error cleanup.</p>
+<p>The preamble to our function is identical to day 1, with the exception of
+initializing our return value early as we&rsquo;ll be using our <code>goto</code> short circuit
+pattern to handle some later potential errors. We check that the user provided a
+filename and read the file into the <code>input</code> buffer.</p>
 
-<pre><code class="language-c">    /* open the file */
-    f = fopen(filename, &quot;r&quot;);
-    if (f == NULL) 
-        goto err_cleanup; /* errno is set by fopen() */
+<pre><code class="language-c">    printf(&quot;Day 2:\n&quot;);
+
+    int paper = 0;
 </code></pre>
 
-<p>Now that we know the file exists, and that it&rsquo;s a regular file, we will try to
-open it for reading. If the file is not readable for any reason, <code>fopen</code> will
-return <code>NULL</code> and set <code>errno</code> appropriately. We will check for the <code>NULL</code>
-return value and short-circuit as needed.</p>
+<p>We&rsquo;ll then print our daily header and initialize the running total for the
+wrapping paper.</p>
 
-<pre><code class="language-c">    /* allocate the buffer */
-    *buf = malloc(s.st_size + 1);
-    if (*buf == NULL)
-        goto err_cleanup; /* errno is set by malloc() */
+<pre><code class="language-c">    /* tokenize the data into lines */
+    char *cursor = input;
+    char *line = strsep(&amp;cursor, &quot;\n&quot;);
 </code></pre>
 
-<p>Now that we&rsquo;ve successfully opened the file, we&rsquo;ll allocate the buffer. Even
-though we already had the size information from the <code>stat</code> call, I&rsquo;ve chosen
-not to allocate the buffer until we know the file is readable, to avoid
-unnecessary allocations. For this problem it doesn&rsquo;t really matter, but it&rsquo;s
-a good habit to be in. If there is an error allocating the buffer such as
-running out of memory, <code>malloc</code> will return <code>NULL</code> and set <code>errno</code>; again we
-will check for this and short-circuit the function as necessary. I&rsquo;m using
-<code>malloc</code> instead of <code>calloc</code> because we have designed the function such that the
-buffer will be completely filled by the file, negating the need to initialize
-it. The extra +1 is to make room for a null terminator so that we may treat the
-buffer as a string.</p>
+<p>Now we start getting into some more interesting string handling. Note that the
+input has one present per line, so we need to effectively split the string on
+the lines. We will use the POSIX <code>strsep</code> function for this. There is a similar
+<code>strtok</code> function in the C standard librory, but it has the downside of being
+non-reentrant. If portability is a concern, you may want to stick use <code>strtok</code>,
+however <code>strsep</code> is widely supported and should  be used instead of <code>strtok</code>
+wherever possible.</p>
 
-<pre><code class="language-c">    /* read the file into the buffer */
-    size_t rd = fread(*buf, 1, s.st_size, f);
-    if (rd &lt; s.st_size)
-        if (ferror(f))
-            goto err_cleanup;
-</code></pre>
+<p>In order to avoid changing the original value of the pointer to the input, we
+make a copy into <code>cursor</code> which becomes the moving pointer passed as the first
+argument of <code>strsep</code>. Finally, we are splitting on the newline character <code>\n</code>.
+We will not bother to make a copy of the input buffer as we only need to parse
+it once.</p>
 
-<p>Now we perform the actual read. <code>fread</code> is a buffered read which calls the
-low-level <code>read</code> syscall, and as such it will block until the requested size
-is read unless there is an error, allowing us to avoid need to loop until the
-expected data is read. Instead, we will check to make sure the expected size
-of data is read (the file size) and check for an error if it is not. If there
-is an error reading the file, we&rsquo;ll short-circuit to our error cleanup.</p>
-
-<pre><code class="language-c">    /* file is read into the buffer, return the number of bytes read */
-    (*buf)[rd] = '\0';
-    rval = rd;
-    goto cleanup;
-</code></pre>
-
-<p>We finish up the logic of our function by setting the extra allocated byte at
-the end of the buffer to a null terminator, then set the return value to the
-amount of data read, and finally jumping to our non-error cleanup. Array
-indeces have a higher precedence than the indirection operator, so we need to
-enclose the indirection in parentheses to avoid writing to the wrong memory
-address.</p>
-
-<pre><code class="language-c">err_cleanup:
-    rval = -1;
-    if (*buf != NULL)
-        free(*buf);
-    *buf = NULL;
-cleanup:
-    if (f != NULL)
-        fclose(f);
-    return rval;
-</code></pre>
-
-<p>Now for our cleanup. There are two things that need to be cleaned up in this
-function: first, the file needs to be closed if it was opened, to avoid file
-handle leaks. Also, if there was an error, the data buffer needs to be freed
-if it was allocated and the pointer set to NULL. Finally, if we did error,
-we set <code>rval</code> to -1 which indicates the error to the caller, who can then get
-more information by inspecting <code>errno.</code></p>
-
-<p>The whole function:</p>
-
-<pre><code class="language-c">int read_file_to_buffer(char **buf, const char *filename)
-{
-    int rval = 0;
-    FILE *f = NULL;
-    *buf = NULL;
-
-    /* check that the file exists and is valid to read */
-    struct stat s;
-    int rc = stat(filename, &amp;s);
-    if (rc == -1)
-        goto err_cleanup; /* errno is set by stat() */
-
-    /* check that we are working with an actual file */
-    if (!S_ISREG(s.st_mode))
+<pre><code class="language-c">    while (line != NULL)
     {
-        errno = EINVAL;
-        goto err_cleanup;
-    }
+        if (strlen(line) == 0)
+            goto tokenize;
+</code></pre>
 
-    /* open the file */
-    f = fopen(filename, &quot;r&quot;);
-    if (f == NULL)
-        goto err_cleanup; /* errno is set by fopen() */
+<p>One side effect of <code>strsep</code> that one needs to be aware of is that if multiple
+delimiters are encountered in a row, <code>strsep</code> will return a pointer to an empty
+string instead of consuming all of the delimiters at once. We check for the
+empty string and short-circuit the loop if we encounter this.</p>
 
-    /* allocate the buffer */
-    *buf = malloc(s.st_size + 1);
-    if (*buf == NULL)
-        goto err_cleanup; /* errno is set by malloc() */
+<pre><code class="language-c">        /* scan each line's values */
+        int dims[3] = {0};
 
-    /* read the file into the buffer */
-    size_t rd = fread(*buf, 1, s.st_size, f);
-    if (rd &lt; s.st_size)
-        if (ferror(f))
+        int scanned = sscanf(line, &quot;%dx%dx%d&quot;, &amp;dims[0], &amp;dims[1], &amp;dims[2]);
+        if (scanned != 3)
+        {
+            fprintf(stderr, &quot;Invalid input line \&quot;%s\&quot;\n&quot;, line);
             goto err_cleanup;
+        }
+</code></pre>
 
-    /* file is read into the buffer, return the number of bytes read */
-    (*buf)[rd] = '\0';
-    rval = rd;
+<p>We now initialize an array of three <code>int</code>s to hold the parsed values. We use an
+array instead of separate variables because we will need to sort the result.
+Once the array is initialized, we use the <code>sscanf</code> function to scan the
+dimensions into the array. As we are not trying to scan <em>into</em> string variables,
+<code>sscanf</code> is perfectly safe for our usage. As an error check, we will
+short-circuit to the function cleanup if we have an invalid line which scans
+less than three values.</p>
+
+<pre><code class="language-c">        qsort(dims, 3, sizeof(int), cmp_int_asc);
+</code></pre>
+
+<p>Once the values are scanned, they need to be sorted so that we can find the
+slack using the smallest side. For this we use the standard library function
+<code>qsort</code> with a simple comparator function:</p>
+
+<pre><code class="language-c">int cmp_int_asc(const void *a, const void *b)
+{
+    int l = *(const int *)a;
+    int r = *(const int *)b;
+
+    return l &lt; r ? -1 : l &gt; r ? 1 : 0;
+}
+</code></pre>
+
+<p>The comparator dereferences and casts the inputs and then returns <code>-1</code> if <code>a &lt; 
+b</code>, <code>1</code> if <code>a &gt; b</code>, or <code>0</code> if they are equal. I use the ternary operator here
+for conciseness, but I would refrain from using it for anything more complex.</p>
+
+<pre><code class="language-c">        paper += 2 * dims[0] * dims[1] + 2 * dims[1] * dims[2] + 2 * dims[2] * dims[0] + dims[0] * dims[1];
+    tokenize:
+        line = strsep(&amp;cursor, &quot;\n&quot;);
+    }
+</code></pre>
+
+<p>Now that we have our values and we have them sorted by smallest to largest, we
+just need to do the math and update our running total. As noted in the problem,
+for each present we need to add the area of each side plus the area of the
+smallest side as slack: <code>2xy + 2yz + 2xz + xy</code>.</p>
+
+<pre><code class="language-c">    printf(&quot;\tSolution 1: %d\n&quot;, paper);
+
     goto cleanup;
 
 err_cleanup:
-    rval = -1;
-    if (*buf != NULL)
-        free(*buf);
-    *buf = NULL;
+    rval = 1;
 cleanup:
-    if (f != NULL)
-        fclose(f);
+    free(input);
     return rval;
 }
 </code></pre>
 
-<p>We&rsquo;ve now written a function with appropriate error checking that can be reused
-throughout our Advent of Code exercises!</p>
+<p>Once we have broken out of the input parsing loop, <code>paper</code> should have the total
+required wrapping paper. We can print the solution and then proceed with
+cleanup. As noted in day 1, freeing <code>input</code> is not strictly necessary in this
+case but is good from a habit-forming perspective.</p>
+
+<p>Once the solution has been input, the second problem is presented:</p>
+
+<blockquote>
+<p>The elves are also running low on ribbon. Ribbon is all the same width, so they only have to worry about the length they need to order, which they would again like to be exact.</p>
+
+<p>The ribbon required to wrap a present is the shortest distance around its sides, or the smallest perimeter of any one face. Each present also requires a bow made out of ribbon as well; the feet of ribbon required for the perfect bow is equal to the cubic feet of volume of the present. Don&rsquo;t ask how they tie the bow, though; they&rsquo;ll never tell.</p>
+
+<p>For example:</p>
+
+<ul>
+<li>A present with dimensions <code>2x3x4</code> requires <code>2+2+3+3 = 10</code> feet of ribbon to wrap the present plus <code>2*3*4 = 24</code> feet of ribbon for the bow, for a total of <code>34</code> feet.</li>
+<li>A present with dimensions <code>1x1x10</code> requires <code>1+1+1+1 = 4</code> feet of ribbon to wrap the present plus <code>1*1*10 = 10</code> feet of ribbon for the bow, for a total of <code>14</code> feet.</li>
+</ul>
+
+<p>How many total <strong>feet of ribbon</strong> should they order?</p>
+</blockquote>
+
+<p>As with day 1, we already have all of the infrastructure present to handle this
+new problem. We&rsquo;ll add a new variable to track the running total of ribbon:</p>
+
+<pre><code class="language-c">    int paper = 0;
+    int ribbon = 0;
+</code></pre>
+
+<p>Then update the total ribbon on each loop, following the instructions to add
+<code>2x+2y+xyz</code> to the total:</p>
+
+<pre><code class="language-c">        paper += 2 * dims[0] * dims[1] + 2 * dims[1] * dims[2] + 2 * dims[2] * dims[0] + dims[0] * dims[1];
+        ribbon += 2 * dims[0] + 2 * dims[1] + dims[0] * dims[1] * dims[2];
+</code></pre>
+
+<p>Finally, we&rsquo;ll print the second solution:</p>
+
+<pre><code class="language-c">
+    printf(&quot;\tSolution 1: %d\n&quot;, paper);
+    printf(&quot;\tSolution 2: %d\n&quot;, ribbon);
+</code></pre>
+
+<p>When it&rsquo;s all put together, we have:</p>
+
+<pre><code class="language-c">#include &lt;errno.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &quot;common.h&quot;
+
+int main(int argc, char const *argv[])
+{
+    int rval = 0;
+
+    /* check that filename was provided */
+    if (argc &lt; 2)
+    {
+        fprintf(stderr, &quot;Must provide filename of input file\n&quot;);
+        return -1;
+    }
+
+    /* read the file into memory */
+    char *input;
+    int filesize = read_file_to_buffer(&amp;input, argv[1]);
+    if (filesize &lt; 0)
+    {
+        fprintf(stderr, &quot;File read failed: %s\n&quot;, strerror(errno));
+        return -1;
+    }
+
+    printf(&quot;Day 2:\n&quot;);
+
+    int paper = 0;
+    int ribbon = 0;
+
+    /* tokenize the data into lines */
+    char *cursor = input;
+    char *line = strsep(&amp;cursor, &quot;\n&quot;);
+    while (line != NULL)
+    {
+        if (strlen(line) == 0)
+            goto tokenize;
+
+        /* scan each line's values */
+        int dims[3] = {0};
+
+        int scanned = sscanf(line, &quot;%dx%dx%d&quot;, &amp;dims[0], &amp;dims[1], &amp;dims[2]);
+        if (scanned != 3)
+        {
+            fprintf(stderr, &quot;Invalid input line \&quot;%s\&quot;\n&quot;, line);
+            goto err_cleanup;
+        }
+
+        qsort(dims, 3, sizeof(int), cmp_int_asc);
+
+        paper += 2 * dims[0] * dims[1] + 2 * dims[1] * dims[2] + 2 * dims[2] * dims[0] + dims[0] * dims[1];
+        ribbon += 2 * dims[0] + 2 * dims[1] + dims[0] * dims[1] * dims[2];
+    tokenize:
+        line = strsep(&amp;cursor, &quot;\n&quot;);
+    }
+
+    printf(&quot;\tSolution 1: %d\n&quot;, paper);
+    printf(&quot;\tSolution 2: %d\n&quot;, ribbon);
+
+    goto cleanup;
+
+err_cleanup:
+    rval = 1;
+cleanup:
+    free(input);
+    return rval;
+}
+</code></pre>
+
+<p>As before, this program will pass all Valgrind checks and does not leak memory.</p>
+
+<p>Suggestions, questions, and criticism welcome! Comments can be added below.</p>
 
     </div>
 
@@ -722,9 +765,7 @@ throughout our Advent of Code exercises!</p>
   
   <a class="badge badge-light" href="/tags/c/">C</a>
   
-  <a class="badge badge-light" href="/tags/best-practices/">Best practices</a>
-  
-  <a class="badge badge-light" href="/tags/dry/">DRY</a>
+  <a class="badge badge-light" href="/tags/string-parsing/">String parsing</a>
   
 </div>
 
@@ -838,6 +879,18 @@ throughout our Advent of Code exercises!</p>
 
 
       
+      
+      <div class="article-widget">
+        <div class="hr-light"></div>
+        <h3>Related</h3>
+        <ul>
+          
+          <li><a href="/post/advent-2015-c-1/">Advent of Code 2015 Day 1: Not Quite Lisp</a></li>
+          
+          <li><a href="/post/advent-setup-c/">Advent of Code deep dive kickoff</a></li>
+          
+        </ul>
+      </div>
       
     
 
